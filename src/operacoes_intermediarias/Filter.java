@@ -3,6 +3,8 @@ package operacoes_intermediarias;
 import mock.Mock;
 
 import java.time.Month;
+import java.util.List;
+import java.util.UUID;
 
 public class Filter {
   // retornar uma lista de clientes que comecam com as letras "MA"
@@ -35,10 +37,30 @@ public class Filter {
     System.out.println(result);
   }
 
+  public static void exercice4() {
+    // Retornar uma lista com todos os pedidos feitos por clientes que fazem aniversário no mês de agosto
+    var pedidos = Mock.pedidos();
+    var clientes = Mock.clientes();
+
+    // Obter IDs de clientes que fazem aniversário em agosto
+    List<UUID> clientesAniversariantesAgosto = clientes.stream()
+      .filter(c -> c.getBirthDate().getMonth() == Month.AUGUST)
+      .map(c -> c.getId())
+      .toList();
+
+    // Filtrar pedidos com base nos IDs dos clientes
+    var result = pedidos.stream()
+      .filter(p -> clientesAniversariantesAgosto.contains(p.getClient().getId()))
+      .toList();
+
+    System.out.println(result);
+  }
+
   public static void main(String[] args) {
     exercice1();
     exercice2();
     exercice3();
+    exercice4();
   }
 }
 
